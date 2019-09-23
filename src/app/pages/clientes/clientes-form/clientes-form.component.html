@@ -1,0 +1,255 @@
+<section class="content-header">
+  <h1>
+    Cadastro de Clientes
+  </h1>
+  <ol class="breadcrumb">
+    <li><a routerLink="/" routerLinkActive="active"><i class="fa fa-dashboard"></i> Home</a></li>
+    <li class="active">CLientes</li>
+  </ol>
+  <section class="content">
+    <div class="row">
+      <div class="box box-primary">
+        <div class="box-header with-border">
+          <a class="btn btn-primary" routerLink="/pages/clientes" title="Voltar"><i class="fa fa-rotate-left"></i></a>
+        </div>
+        <form class="form" #f="ngForm" (ngSubmit)="onSubmit(f)">
+          <div class="alert alert-warning alert-dismissible alert-validations"
+            *ngIf="validacoes && validacoes.length > 0">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            <h4><i class="icon fa fa-warning"></i> Verifique os erros abaixo!</h4>
+            <ul>
+              <li *ngFor="let validacao of validacoes">{{validacao}}</li>
+            </ul>
+          </div>
+          <div class="box-body">
+            <div class="nav-tabs-custom">
+              <ul class="nav nav-tabs">
+                <li class="active"><a href="#tab_dad" data-toggle="tab" aria-expanded="true">Dados</a></li>
+                <li><a href="#tab_end_fat" data-toggle="tab" aria-expanded="false">Endereço Faturamento</a></li>
+                <li><a href="#tab_end_ent" data-toggle="tab" aria-expanded="false">Endereço Entrega</a></li>
+              </ul>
+              <div class="tab-content">
+                <div class="tab-pane active" id="tab_dad">
+                  <div class="row">
+                    <div class="col-lg-3">
+                      <div class="form-group form-group-sm">
+                        <label for="id">ID</label>
+                        <input id="id" name="id" [(ngModel)]="data.id" disabled class="form-control form-control-sm"
+                          type="text">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-6">
+                      <div class="form-group form-group-sm">
+                        <label for="nome" class="required">Nome</label>
+                        <input id="descrnomeicao" name="nome" [(ngModel)]="data.nome" maxlength="100" required
+                          class="form-control form-control-sm" type="text" autofocus>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-3">
+                      <div class="form-group form-group-sm">
+                        <label for="cpfCnpj" class="required">CPF/CNPJ</label>
+                        <input id="cpfCnpj" name="cpfCnpj" [(ngModel)]="data.cpfCnpj" maxlength="14" required
+                          class="form-control form-control-sm" type="text">
+                      </div>
+                    </div>
+                    <div class="col-lg-3">
+                      <div class="form-group form-group-sm">
+                        <label for="documento">Documento</label>
+                        <input id="documento" name="documento" [(ngModel)]="data.documento" maxlength="30"
+                          class="form-control form-control-sm" type="text">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-3">
+                      <div class="form-group form-group-sm">
+                        <label for="telefone">Telefone</label>
+                        <input id="telefone" name="telefone" [(ngModel)]="data.telefone" maxlength="20"
+                          class="form-control form-control-sm" type="text" mask="(00) 0000-0000">
+                      </div>
+                    </div>
+                    <div class="col-lg-3">
+                      <div class="form-group form-group-sm">
+                        <label for="celular">Celular</label>
+                        <input id="celular" name="celular" [(ngModel)]="data.celular" maxlength="20"
+                          class="form-control form-control-sm" type="text" mask="(00) 0-0000-0000">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-6">
+                      <div class="form-group form-group-sm">
+                        <label for="email">E-mail</label>
+                        <input id="email" name="email" [(ngModel)]="data.email" maxlength="100"
+                          class="form-control form-control-sm" type="text">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="tab-pane" id="tab_end_fat">
+                  <div class="row">
+                    <div class="col-lg-3">
+                      <div class="form-group form-group-sm">
+                        <label for="fatCep">CEP</label>
+                        <input id="fatCep" name="fatCep" [(ngModel)]="data.fatCep" maxlength="100"
+                          class="form-control form-control-sm" type="text" (blur)="getCepFat()">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-6">
+                      <div class="form-group form-group-sm">
+                        <label for="fatRua">Rua</label>
+                        <input id="fatRua" name="fatRua" [(ngModel)]="data.fatRua" maxlength="100"
+                          class="form-control form-control-sm" type="text">
+                      </div>
+                    </div>
+                    <div class="col-lg-2">
+                      <div class="form-group form-group-sm">
+                        <label for="fatNumero">Número</label>
+                        <input id="fatNumero" name="fatNumero" [(ngModel)]="data.fatNumero" maxlength="100"
+                          class="form-control form-control-sm" type="text">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-6">
+                      <div class="form-group form-group-sm">
+                        <label for="fatComplemento">Complemento</label>
+                        <input id="fatComplemento" name="fatComplemento" [(ngModel)]="data.fatComplemento"
+                          maxlength="250" class="form-control form-control-sm" type="text">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-3">
+                      <div class="form-group form-group-sm">
+                        <label for="fatBairro">Bairro</label>
+                        <input id="fatBairro" name="fatBairro" [(ngModel)]="data.fatBairro" maxlength="100"
+                          class="form-control form-control-sm" type="text">
+                      </div>
+                    </div>
+                    <div class="col-lg-3">
+                      <div class="form-group form-group-sm">
+                        <label for="fatCidade">Cidade</label>
+                        <input id="fatCidade" name="fatCidade" [(ngModel)]="data.fatCidade" maxlength="100"
+                          class="form-control form-control-sm" type="text">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-3">
+                      <div class="form-group form-group-sm">
+                        <label for="fatEstado">Estado</label>
+                        <select [(ngModel)]="data.fatEstado" class="form-control form-control-sm" id="fatEstado"
+                          name="fatEstado">
+                          <option value="">Selecione um</option>
+                          <option *ngFor="let t of estados.get" value="{{t.id}}">{{ t.descricao }}</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-lg-3">
+                      <div class="form-group form-group-sm">
+                        <label for="fatTelefone">Telefone</label>
+                        <input id="fatTelefone" name="fatTelefone" [(ngModel)]="data.fatTelefone" maxlength="100"
+                          class="form-control form-control-sm" type="text">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="tab-pane" id="tab_end_ent">
+                  <div class="row">
+                    <div class="col-lg-3">
+                      <div class="form-group form-group-sm">
+                        <label for="entCep">CEP</label>
+                        <input id="entCep" name="entCep" [(ngModel)]="data.entCep" maxlength="100"
+                          class="form-control form-control-sm" type="text" (blur)="getCepEnt()">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-6">
+                      <div class="form-group form-group-sm">
+                        <label for="entRua">Rua</label>
+                        <input id="entRua" name="entRua" [(ngModel)]="data.entRua" maxlength="100"
+                          class="form-control form-control-sm" type="text">
+                      </div>
+                    </div>
+                    <div class="col-lg-2">
+                      <div class="form-group form-group-sm">
+                        <label for="entNumero">Número</label>
+                        <input id="entNumero" name="entNumero" [(ngModel)]="data.entNumero" maxlength="100"
+                          class="form-control form-control-sm" type="text">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-6">
+                      <div class="form-group form-group-sm">
+                        <label for="entComplemento">Complemento</label>
+                        <input id="entComplemento" name="entCmplemento" [(ngModel)]="data.entComplemento"
+                          maxlength="250" class="form-control form-control-sm" type="text">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-3">
+                      <div class="form-group form-group-sm">
+                        <label for="entBairro">Bairro</label>
+                        <input id="entBairro" name="entBairro" [(ngModel)]="data.entBairro" maxlength="100"
+                          class="form-control form-control-sm" type="text">
+                      </div>
+                    </div>
+                    <div class="col-lg-3">
+                      <div class="form-group form-group-sm">
+                        <label for="entCidade">Cidade</label>
+                        <input id="entCidade" name="entCidade" [(ngModel)]="data.entCidade" maxlength="100"
+                          class="form-control form-control-sm" type="text">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-3">
+                      <div class="form-group form-group-sm">
+                        <label for="entEstado">Estado</label>
+                        <select [(ngModel)]="data.entEstado" class="form-control form-control-sm" id="entEstado"
+                          name="entEstado">
+                          <option value="">Selecione um</option>
+                          <option *ngFor="let t of estados.get" value="{{t.id}}">{{ t.descricao }}</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-lg-3">
+                      <div class="form-group form-group-sm">
+                        <label for="entTelefone">Telefone</label>
+                        <input id="entTelefone" name="entTelefone" [(ngModel)]="data.entTelefone" maxlength="100"
+                          class="form-control form-control-sm" type="text">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="box-footer">
+            <div class="row">
+              <div class="col-lg-4">
+                <div class="form-group">
+                  <button class="btn btn-success mr-1" type="submit">
+                    Salvar
+                  </button>
+                  <button class="btn btn-success" (click)="onSaveAndCreate(f)" type="button">
+                    Salvar e Novo
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>

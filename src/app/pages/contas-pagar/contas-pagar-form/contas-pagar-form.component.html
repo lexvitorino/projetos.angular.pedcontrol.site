@@ -1,0 +1,148 @@
+<section class="content-header">
+  <h1>
+    Cadastro de Contas a Pagar
+  </h1>
+  <ol class="breadcrumb">
+    <li><a routerLink="/" routerLinkActive="active"><i class="fa fa-dashboard"></i>
+        Home</a></li>
+    <li class="active">Contas a Pagar</li>
+  </ol>
+  <section class="content">
+    <div class="row">
+      <div class="box box-primary">
+        <div class="box-header with-border">
+          <a class="btn btn-primary" routerLink="/pages/contasPagar" title="Voltar"><i
+              class="fa fa-rotate-left"></i></a>
+        </div>
+        <form class="form" #f="ngForm" (ngSubmit)="onSubmit(f)">
+          <div class="alert alert-warning alert-dismissible alert-validations"
+            *ngIf="validacoes && validacoes.length> 0">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            <h4><i class="icon fa fa-warning"></i> Verifique os erros abaixo!</h4>
+            <ul>
+              <li *ngFor="let validacao of validacoes">{{validacao}}</li>
+            </ul>
+          </div>
+          <div class="box-body">
+            <div class="nav-tabs-custom">
+              <ul class="nav nav-tabs">
+                <li class="active"><a href="#tab_dad" data-toggle="tab" aria-expanded="true">Dados</a></li>
+              </ul>
+              <div class="tab-content">
+                <div class="tab-pane active" id="tab_dad">
+                  <div class="row">
+                    <div class="col-lg-3">
+                      <div class="form-group form-group-sm">
+                        <label for="id">ID</label>
+                        <input id="id" name="id" [(ngModel)]="data.id" disabled class="form-control form-control-sm"
+                          type="text">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-3">
+                      <div class="form-group form-group-sm">
+                        <label for="data" class="required">Data</label>
+                        <app-data id="data" name="data" [(ngModel)]="data.data" required="true"></app-data>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-3">
+                      <div class="form-group form-group-sm">
+                        <label for="numero">Número</label>
+                        <input id="numero" name="numero" [(ngModel)]="data.numero" maxlength="30"
+                          class="form-control form-control-sm" type="text">
+                      </div>
+                    </div>
+                    <div class="col-lg-2">
+                      <div class="form-group form-group-sm">
+                        <label for="parcela">Parcela</label>
+                        <input id="parcela" name="parcela" [(ngModel)]="data.parcela" maxlength="30"
+                          class="form-control form-control-sm" type="text">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-6">
+                      <div class="form-group form-group-sm">
+                        <label for="idFornecedor">Fornecedor</label>
+                        <app-combo-fornecedores id="idFornecedor" name="idFornecedor" [(ngModel)]="data.idFornecedor">
+                        </app-combo-fornecedores>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-3">
+                      <div class="form-group form-group-sm">
+                        <label for="valor">Valor</label>
+                        <input id="valor" name="valor" [(ngModel)]="data.valor" maxlength="30"
+                          class="form-control form-control-sm" type="text" currencyMask [options]="{ prefix: '', thousands: '.', decimal: ','
+                          }">
+                      </div>
+                    </div>
+                    <div class="col-lg-3">
+                      <div class="form-group form-group-sm">
+                        <label for="dataVencimento">Data Vencimento</label>
+                        <app-data id="dataVencimento" name="dataVencimento" [(ngModel)]="data.dataVencimento">
+                        </app-data>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-3">
+                      <div class="form-group form-group-sm">
+                        <label for="desconto">Desconto</label>
+                        <input id="desconto" name="desconto" [(ngModel)]="data.desconto" maxlength="30"
+                          class="form-control form-control-sm" type="text" currencyMask [options]="{ prefix: '', thousands: '.', decimal: ','
+                          }">
+                      </div>
+                    </div>
+                    <div class="col-lg-3">
+                      <div class="form-group form-group-sm">
+                        <label for="juros">Juros</label>
+                        <input id="juros" name="juros" [(ngModel)]="data.juros" maxlength="30"
+                          class="form-control form-control-sm" type="text" currencyMask [options]="{ prefix: '', thousands: '.', decimal: ','
+                          }">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-3">
+                      <div class="form-group form-group-sm">
+                        <label for="valorPago">Valor Pago</label>
+                        <input id="valorPago" name="valorPago" [(ngModel)]="data.valorPago" maxlength="30"
+                          class="form-control form-control-sm" type="text" currencyMask [options]="{ prefix: '', thousands: '.', decimal: ','
+                          }">
+                      </div>
+                    </div>
+                    <div class="col-lg-3">
+                      <div class="form-group form-group-sm">
+                        <label for="dataLiquidacao">Data Liquidação</label>
+                        <app-data id="dataLiquidacao" name="dataLiquidacao" [(ngModel)]="data.dataLiquidacao">
+                        </app-data>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="box-footer">
+            <div class="row">
+              <div class="col-lg-4">
+                <div class="form-group">
+                  <button class="btn btn-success mr-1" type="submit">
+                    Salvar
+                  </button>
+                  <button class="btn btn-success" (click)="onSaveAndCreate(f)" type="button">
+                    Salvar e Novo
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>

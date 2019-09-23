@@ -1,0 +1,5 @@
+<select [attr.id]="id" [attr.id]="name" [(ngModel)]="internalValue" (change)="selected()" [required]="required"
+  [disabled]="disabled" class="form-control form-control-sm">
+  <option value="">Selecione um</option>
+  <option value="{{item.id}}" *ngFor="let item of dados">{{item.razaoSocial}}</option>
+</select>

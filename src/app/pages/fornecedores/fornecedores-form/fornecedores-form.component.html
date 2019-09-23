@@ -1,0 +1,176 @@
+<section class="content-header">
+  <h1>
+    Cadastro de Fornecedores
+  </h1>
+  <ol class="breadcrumb">
+    <li><a routerLink="/" routerLinkActive="active"><i class="fa fa-dashboard"></i> Home</a></li>
+    <li class="active">Fornecedores</li>
+  </ol>
+  <section class="content">
+    <div class="row">
+      <div class="box box-primary">
+        <div class="box-header with-border">
+          <a class="btn btn-primary" routerLink="/pages/fornecedores" title="Voltar"><i
+              class="fa fa-rotate-left"></i></a>
+        </div>
+        <form class="form" #f="ngForm" (ngSubmit)="onSubmit(f)">
+          <div class="alert alert-warning alert-dismissible alert-validations"
+            *ngIf="validacoes && validacoes.length > 0">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            <h4><i class="icon fa fa-warning"></i> Verifique os erros abaixo!</h4>
+            <ul>
+              <li *ngFor="let validacao of validacoes">{{validacao}}</li>
+            </ul>
+          </div>
+          <div class="box-body">
+            <div class="nav-tabs-custom">
+              <ul class="nav nav-tabs">
+                <li class="active"><a href="#tab_dad" data-toggle="tab" aria-expanded="true">Dados</a></li>
+                <li><a href="#tab_end_fat" data-toggle="tab" aria-expanded="false">Endereço</a></li>
+              </ul>
+              <div class="tab-content">
+                <div class="tab-pane active" id="tab_dad">
+                  <div class="row">
+                    <div class="col-lg-3">
+                      <div class="form-group form-group-sm">
+                        <label for="id">ID</label>
+                        <input id="id" name="id" [(ngModel)]="data.id" disabled class="form-control form-control-sm"
+                          type="text">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-6">
+                      <div class="form-group form-group-sm">
+                        <label for="razaoSocial" class="required">Razão Social</label>
+                        <input id="razaoSocial" name="razaoSocial" [(ngModel)]="data.razaoSocial" maxlength="100"
+                          required class="form-control form-control-sm" type="text" autofocus>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-3">
+                      <div class="form-group form-group-sm">
+                        <label for="cpf" class="required">CNPJ</label>
+                        <input id="cpf" name="cpf" [(ngModel)]="data.cnpj" maxlength="18" required
+                          class="form-control form-control-sm" type="text" mask="00.000.000/0000-00">
+                      </div>
+                    </div>
+                    <div class="col-lg-3">
+                      <div class="form-group form-group-sm">
+                        <label for="rg">IE</label>
+                        <input id="rg" name="rg" [(ngModel)]="data.ie" maxlength="30"
+                          class="form-control form-control-sm" type="text">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-3">
+                      <div class="form-group form-group-sm">
+                        <label for="telefone">Telefone</label>
+                        <input id="telefone" name="telefone" [(ngModel)]="data.telefone" maxlength="20"
+                          class="form-control form-control-sm" type="text" mask="(00) 0000-0000">
+                      </div>
+                    </div>
+                    <div class="col-lg-3">
+                      <div class="form-group form-group-sm">
+                        <label for="celular">Celular</label>
+                        <input id="celular" name="celular" [(ngModel)]="data.celular" maxlength="20"
+                          class="form-control form-control-sm" type="text" mask="(00) 0-0000-0000">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-6">
+                      <div class="form-group form-group-sm">
+                        <label for="email" class="required">E-mail</label>
+                        <input id="email" name="email" [(ngModel)]="data.email" maxlength="100"
+                          class="form-control form-control-sm" type="text">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="tab-pane" id="tab_end_fat">
+                  <div class="row">
+                    <div class="col-lg-3">
+                      <div class="form-group form-group-sm">
+                        <label for="cep">CEP</label>
+                        <input id="cep" name="cep" [(ngModel)]="data.cep" maxlength="100"
+                          class="form-control form-control-sm" type="text" (blur)="getCep()">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-6">
+                      <div class="form-group form-group-sm">
+                        <label for="rua">Rua</label>
+                        <input id="rua" name="rua" [(ngModel)]="data.rua" maxlength="100"
+                          class="form-control form-control-sm" type="text">
+                      </div>
+                    </div>
+                    <div class="col-lg-2">
+                      <div class="form-group form-group-sm">
+                        <label for="numero">Número</label>
+                        <input id="numero" name="numero" [(ngModel)]="data.numero" maxlength="100"
+                          class="form-control form-control-sm" type="text">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-6">
+                      <div class="form-group form-group-sm">
+                        <label for="complemento">Complemento</label>
+                        <input id="complemento" name="complemento" [(ngModel)]="data.complemento" maxlength="250"
+                          class="form-control form-control-sm" type="text">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-3">
+                      <div class="form-group form-group-sm">
+                        <label for="bairro">Bairro</label>
+                        <input id="bairro" name="bairro" [(ngModel)]="data.bairro" maxlength="100"
+                          class="form-control form-control-sm" type="text">
+                      </div>
+                    </div>
+                    <div class="col-lg-3">
+                      <div class="form-group form-group-sm">
+                        <label for="cidade">Cidade</label>
+                        <input id="cidade" name="cidade" [(ngModel)]="data.cidade" maxlength="100"
+                          class="form-control form-control-sm" type="text">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-3">
+                      <div class="form-group form-group-sm">
+                        <label for="estado">Estado</label>
+                        <select [(ngModel)]="data.estado" class="form-control form-control-sm" id="estado" name="estado">
+                          <option value="">Selecione um</option>
+                          <option *ngFor="let t of estados.get" value="{{t.id}}">{{ t.descricao }}</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="box-footer">
+            <div class="row">
+              <div class="col-lg-4">
+                <div class="form-group">
+                  <button class="btn btn-success mr-1" type="submit">
+                    Salvar
+                  </button>
+                  <button class="btn btn-success" (click)="onSaveAndCreate(f)" type="button">
+                    Salvar e Novo
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>

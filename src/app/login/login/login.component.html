@@ -1,0 +1,28 @@
+<div class="login-box">
+  <div class="login-logo">
+    <b>A&J</b>Soluções
+  </div>
+  <!-- /.login-logo -->
+  <div class="login-box-body">
+    <p class="login-box-msg">Entre com seus dados para logar</p>
+    <form #f="ngForm" (ngSubmit)="onSubmit()" class="text-left mt-4">
+      <div class="form-group has-feedback">
+        <input type="text" class="form-control" placeholder="Usuário" name="usuario" [(ngModel)]="login.usuario">
+        <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+      </div>
+      <div class="form-group has-feedback">
+        <input type="password" class="form-control" placeholder="Senha" name="senha" [(ngModel)]="login.senha">
+        <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+      </div>
+      <div class="row">
+        <div class="col-xs-12">
+          <button type="submit" class="btn btn-primary btn-block btn-flat">Login</button>
+        </div>
+        <!-- /.col -->
+      </div>
+    </form>
+    <div class="clearfix">&nbsp;</div>
+    <a href="#">Esqueceu sua senha?</a><br>
+  </div>
+  <!-- /.login-box-body -->
+</div>

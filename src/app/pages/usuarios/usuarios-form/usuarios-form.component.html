@@ -1,0 +1,79 @@
+<section class="content-header">
+  <h1>
+    Cadastro de Usuários
+  </h1>
+  <ol class="breadcrumb">
+    <li><a routerLink="/" routerLinkActive="active"><i class="fa fa-dashboard"></i> Home</a></li>
+    <li class="active">Usuários</li>
+  </ol>
+  <section class="content">
+    <div class="row">
+      <div class="box box-primary">
+        <div class="box-header with-border">
+          <a class="btn btn-primary" routerLink="/pages/usuarios" title="Voltar"><i class="fa fa-rotate-left"></i></a>
+        </div>
+        <form class="form" #f="ngForm" (ngSubmit)="onSubmit(f)">
+          <div class="alert alert-warning alert-dismissible alert-validations"
+            *ngIf="validacoes && validacoes.length > 0">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            <h4><i class="icon fa fa-warning"></i> Verifique os erros abaixo!</h4>
+            <ul>
+              <li *ngFor="let validacao of validacoes">{{validacao}}</li>
+            </ul>
+          </div>
+          <div class="box-body">
+            <div class="row">
+              <div class="col-lg-3">
+                <div class="form-group form-group-sm">
+                  <label for="id">ID</label>
+                  <input id="id" name="id" [(ngModel)]="data.id" disabled class="form-control form-control-sm"
+                    type="text">
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-6">
+                <div class="form-group form-group-sm">
+                  <label for="nome" class="required">Nome</label>
+                  <input id="descrnomeicao" name="nome" [(ngModel)]="data.nome" maxlength="100"
+                    class="form-control form-control-sm" type="text" autofocus>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-6">
+                <div class="form-group form-group-sm">
+                  <label for="email" class="required">E-mail</label>
+                  <input id="email" name="email" [(ngModel)]="data.email" maxlength="100"
+                    class="form-control form-control-sm" type="text">
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-3">
+                <div class="form-group form-group-sm">
+                  <label for="usuario" class="required">Usuário</label>
+                  <input id="usuario" name="usuario" [(ngModel)]="data.usuario" maxlength="50"
+                    class="form-control form-control-sm" type="text">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="box-footer">
+            <div class="row">
+              <div class="col-lg-4">
+                <div class="form-group">
+                  <button class="btn btn-success mr-1" type="submit">
+                    Salvar
+                  </button>
+                  <button class="btn btn-success" (click)="onSaveAndCreate(f)" type="button">
+                    Salvar e Novo
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>

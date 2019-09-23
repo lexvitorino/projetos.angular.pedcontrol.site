@@ -1,0 +1,419 @@
+<section class="content-header">
+  <h1>
+    Cadastro de Pedidos
+  </h1>
+  <ol class="breadcrumb">
+    <li><a routerLink="/" routerLinkActive="active"><i class="fa fa-dashboard"></i>
+        Home</a></li>
+    <li class="active">Pedidos</li>
+  </ol>
+  <section class="content">
+    <div class="row">
+      <div class="box box-primary">
+        <div class="box-header with-border">
+          <a class="btn btn-primary" routerLink="/pages/pedidos" title="Voltar"><i class="fa fa-rotate-left"></i></a>
+        </div>
+        <div class="alert alert-warning alert-dismissible alert-validations" *ngIf="validacoes && validacoes.length> 0">
+          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+          <h4><i class="icon fa fa-warning"></i> Verifique os erros abaixo!</h4>
+          <ul>
+            <li *ngFor="let validacao of validacoes">{{validacao}}</li>
+          </ul>
+        </div>
+        <div class="box-body">
+          <div class="nav-tabs-custom">
+            <ul class="nav nav-tabs">
+              <li class="active"><a href="#tab_gerais" data-toggle="tab" aria-expanded="true">Gerais</a></li>
+              <li><a href="#tab_item" data-toggle="tab" aria-expanded="false">Itens</a></li>
+              <li><a href="#tab_cond_pagto" data-toggle="tab" aria-expanded="false">Condição de Pagamento</a></li>
+            </ul>
+            <div class="tab-content">
+              <div class="tab-pane active" id="tab_gerais">
+                <div class="nav-tabs-custom">
+                  <ul class="nav nav-tabs">
+                    <li class="active"><a href="#tab_dad" data-toggle="tab" aria-expanded="true">Dados</a></li>
+                    <li><a href="#tab_end_fat" data-toggle="tab" aria-expanded="false">Endereço Faturamento</a></li>
+                    <li><a href="#tab_end_ent" data-toggle="tab" aria-expanded="false">Endereço Entrega</a></li>
+                    <li><a href="#tab_recibo" data-toggle="tab" aria-expanded="false">Recibo de Sinal R$</a></li>
+                  </ul>
+                  <form class="form" #f="ngForm" (ngSubmit)="onSubmit(f)">
+                    <div class="tab-content">
+                      <div class="tab-pane active" id="tab_dad">
+                        <div class="row">
+                          <div class="col-lg-12">
+                            <div class="col-lg-6">
+                              <div class="row">
+                                <div class="col-lg-6">
+                                  <div class="form-group form-group-sm">
+                                    <label for="id">ID</label>
+                                    <input id="id" name="id" [(ngModel)]="data.id" disabled
+                                      class="form-control form-control-sm" type="text">
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="row">
+                                <div class="col-lg-6">
+                                  <div class="form-group form-group-sm">
+                                    <label for="data" class="required">Data</label>
+                                    <app-data id="data" name="data" [(ngModel)]="data.data" required="true"></app-data>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="row">
+                                <div class="col-lg-6">
+                                  <div class="form-group form-group-sm">
+                                    <label for="numero">Número</label>
+                                    <input id="numero" name="numero" [(ngModel)]="data.numero" maxlength="11"
+                                      class="form-control form-control-sm" type="text">
+                                  </div>
+                                </div>
+                                <div class="col-lg-6">
+                                  <div class="form-group form-group-sm">
+                                    <label for="vendedor">Vendedor</label>
+                                    <input id="vendedor" name="vendedor" [(ngModel)]="data.vendedor" maxlength="250"
+                                      class="form-control form-control-sm" type="text">
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="row">
+                                <div class="col-lg-12">
+                                  <div class="form-group form-group-sm">
+                                    <label for="idCliente" class="required">Cliente</label>
+                                    <app-combo-clientes id="idCliente" name="idCliente" [(ngModel)]="data.idCliente"
+                                      (outData)="trataClientes($event)">
+                                    </app-combo-clientes>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="row">
+                                <div class="col-lg-6">
+                                  <div class="form-group form-group-sm">
+                                    <label for="prazoEntrega">Prazo Entrega</label>
+                                    <input id="prazoEntrega" name="prazoEntrega" [(ngModel)]="data.prazoEntrega"
+                                      maxlength="20" class="form-control
+                                      form-control-sm" type="text">
+                                  </div>
+                                </div>
+                                <div class="col-lg-6">
+                                  <div class="form-group form-group-sm">
+                                    <label for="prazoColocacao">Prazo Colocação</label>
+                                    <input id="prazoColocacao" name="prazoColocacao" [(ngModel)]="data.prazoColocacao"
+                                      maxlength="20" class="form-control
+                                      form-control-sm" type="text">
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="row">
+                                <div class="col-lg-6">
+                                  <div class="form-group form-group-sm">
+                                    <label for="descontoTotal">Desconto de (R$)</label>
+                                    <input id="descontoTotal" name="descontoTotal" [(ngModel)]="data.descontoTotal"
+                                      maxlength="15" class="form-control
+                                      form-control-sm" type="text" currencyMask disabled [options]="{ prefix: '',
+                                      thousands: '.', decimal: ',' }">
+                                  </div>
+                                </div>
+                                <div class="col-lg-6">
+                                  <div class="form-group form-group-sm">
+                                    <label for="valorTotal">Total de (R$)</label>
+                                    <input id="valorTotal" name="valorTotal" [(ngModel)]="data.valorTotal"
+                                      maxlength="15" class="form-control
+                                      form-control-sm" type="text" currencyMask [options]="{ prefix: '', thousands: '.',
+                                      decimal: ',' }" disabled>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-lg-6">
+                              <div class="clearfix">&nbsp;</div>
+                              <div class="row">
+                                <div class="col-lg-12">
+                                  <!-- Button trigger modal -->
+                                  <button type="button" class="btn btn-primary
+                                    btn-block" data-toggle="modal" data-target="#signPedModal">
+                                    Solicitar assinatura
+                                  </button>
+                                </div>
+                                <div class="col-lg-12">
+                                  <img class="sign-img" [src]="signPed" />
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="tab-pane" id="tab_end_fat">
+                        <div class="row">
+                          <div class="col-lg-3">
+                            <div class="form-group form-group-sm">
+                              <label for="fatCep">CEP</label>
+                              <input id="fatCep" name="fatCep" [(ngModel)]="data.fatCep" maxlength="9" mask="00000-000"
+                                class="form-control form-control-sm" type="text" (blur)="getCepFat()">
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-lg-6">
+                            <div class="form-group form-group-sm">
+                              <label for="fatRua">Rua</label>
+                              <input id="fatRua" name="fatRua" [(ngModel)]="data.fatRua" maxlength="100"
+                                class="form-control form-control-sm" type="text">
+                            </div>
+                          </div>
+                          <div class="col-lg-2">
+                            <div class="form-group form-group-sm">
+                              <label for="fatNumero">Número</label>
+                              <input id="fatNumero" name="fatNumero" [(ngModel)]="data.fatNumero" maxlength="20"
+                                class="form-control form-control-sm" type="text">
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-lg-6">
+                            <div class="form-group form-group-sm">
+                              <label for="fatComplemento">Complemento</label>
+                              <input id="fatComplemento" name="fatComplemento" [(ngModel)]="data.fatComplemento"
+                                maxlength="250" class="form-control
+                                form-control-sm" type="text">
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-lg-3">
+                            <div class="form-group form-group-sm">
+                              <label for="fatBairro">Bairro</label>
+                              <input id="fatBairro" name="fatBairro" [(ngModel)]="data.fatBairro" maxlength="100"
+                                class="form-control form-control-sm" type="text">
+                            </div>
+                          </div>
+                          <div class="col-lg-3">
+                            <div class="form-group form-group-sm">
+                              <label for="fatCidade">Cidade</label>
+                              <input id="fatCidade" name="fatCidade" [(ngModel)]="data.fatCidade" maxlength="100"
+                                class="form-control form-control-sm" type="text">
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-lg-3">
+                            <div class="form-group form-group-sm">
+                              <label for="fatEstado">Estado</label>
+                              <select [(ngModel)]="data.fatEstado" class="form-control form-control-sm" id="fatEstado"
+                                name="fatEstado">
+                                <option value="">Selecione um</option>
+                                <option *ngFor="let t of estados.get" value="{{t.id}}">{{ t.descricao }}</option>
+                              </select>
+                            </div>
+                          </div>
+                          <div class="col-lg-3">
+                            <div class="form-group form-group-sm">
+                              <label for="fatTelefone">Telefone</label>
+                              <input id="fatTelefone" name="fatTelefone" [(ngModel)]="data.fatTelefone" maxlength="20"
+                                class="form-control form-control-sm" type="text" mask="(00) 0000-00009">
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="tab-pane" id="tab_end_ent">
+                        <div class="row">
+                          <div class="col-lg-3">
+                            <div class="form-group form-group-sm">
+                              <label for="entCep">CEP</label>
+                              <input id="entCep" name="entCep" [(ngModel)]="data.entCep" maxlength="9" mask="00000-000"
+                                class="form-control form-control-sm" type="text" (blur)="getCepEnt()">
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-lg-6">
+                            <div class="form-group form-group-sm">
+                              <label for="entRua">Rua</label>
+                              <input id="entRua" name="entRua" [(ngModel)]="data.entRua" maxlength="100"
+                                class="form-control form-control-sm" type="text">
+                            </div>
+                          </div>
+                          <div class="col-lg-2">
+                            <div class="form-group form-group-sm">
+                              <label for="entNumero">Número</label>
+                              <input id="entNumero" name="entNumero" [(ngModel)]="data.entNumero" maxlength="20"
+                                class="form-control form-control-sm" type="text">
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-lg-6">
+                            <div class="form-group form-group-sm">
+                              <label for="entComplemento">Complemento</label>
+                              <input id="entComplemento" name="entCmplemento" [(ngModel)]="data.entComplemento"
+                                maxlength="250" class="form-control
+                                form-control-sm" type="text">
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-lg-3">
+                            <div class="form-group form-group-sm">
+                              <label for="entBairro">Bairro</label>
+                              <input id="entBairro" name="entBairro" [(ngModel)]="data.entBairro" maxlength="100"
+                                class="form-control form-control-sm" type="text">
+                            </div>
+                          </div>
+                          <div class="col-lg-3">
+                            <div class="form-group form-group-sm">
+                              <label for="entCidade">Cidade</label>
+                              <input id="entCidade" name="entCidade" [(ngModel)]="data.entCidade" maxlength="100"
+                                class="form-control form-control-sm" type="text">
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-lg-3">
+                            <div class="form-group form-group-sm">
+                              <label for="entEstado">Estado</label>
+                              <select [(ngModel)]="data.entEstado" class="form-control form-control-sm" id="entEstado"
+                                name="entEstado">
+                                <option value="">Selecione um</option>
+                                <option *ngFor="let t of estados.get" value="{{t.id}}">{{ t.descricao }}</option>
+                              </select>
+                            </div>
+                          </div>
+                          <div class="col-lg-3">
+                            <div class="form-group form-group-sm">
+                              <label for="entTelefone">Telefone</label>
+                              <input id="entTelefone" name="entTelefone" [(ngModel)]="data.entTelefone" maxlength="20"
+                                class="form-control form-control-sm" type="text" mask="(00) 0000-00009">
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="tab-pane" id="tab_recibo">
+                        <div class="row">
+                          <div class="col-lg-12">
+                            <div class="col-lg-6">
+                              <div class="row">
+                                <div class="col-lg-6">
+                                  <div class="form-group form-group-sm">
+                                    <label for="valorAdiant">Valor de (R$)</label>
+                                    <input id="valorAdiant" name="valorAdiant" [(ngModel)]="data.valorAdiant"
+                                      maxlength="15" class="form-control
+                                      form-control-sm" type="text" currencyMask [options]="{ prefix: '', thousands: '.',
+                                      decimal: ',' }">
+                                  </div>
+                                </div>
+                                <div class="col-lg-6">
+                                  <div class="form-group form-group-sm">
+                                    <label for="tipoAdiant">Adiantado em</label>
+                                    <select id="tipoAdiant" name="tipoAdiant" [(ngModel)]="data.tipoAdiant"
+                                      class="form-control form-control-sm" type="text">
+                                      <option value="">Selecione um</option>
+                                      <option *ngFor="let t of tipoAdiantamento.get" value="{{t.id}}">{{ t.descricao }}
+                                      </option>
+                                    </select>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="row">
+                                <div class="col-lg-4">
+                                  <div class="form-group form-group-sm">
+                                    <label for="bancoAdiant">Banco</label>
+                                    <input id="bancoAdiant" name="bancoAdiant" [(ngModel)]="data.bancoAdiant"
+                                      maxlength="20" class="form-control
+                                      form-control-sm" type="text">
+                                  </div>
+                                </div>
+                                <div class="col-lg-4">
+                                  <div class="form-group form-group-sm">
+                                    <label for="agenciaAdiant">Agência</label>
+                                    <input id="agenciaAdiant" name="agenciaAdiant" [(ngModel)]="data.agenciaAdiant"
+                                      maxlength="20" class="form-control
+                                      form-control-sm" type="text">
+                                  </div>
+                                </div>
+                                <div class="col-lg-4">
+                                  <div class="form-group form-group-sm">
+                                    <label for="contaAdiant">Conta</label>
+                                    <input id="contaAdiant" name="contaAdiant" [(ngModel)]="data.contaAdiant"
+                                      maxlength="20" class="form-control
+                                      form-control-sm" type="text">
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-lg-6">
+                              <div class="clearfix">&nbsp;</div>
+                              <div class="row">
+                                <div class="col-lg-12">
+                                  <button type="button" class="btn btn-primary
+                                    btn-block" data-toggle="modal" data-target="#signRecModal">
+                                    Solicitar assinatura
+                                  </button>
+                                </div>
+                                <div class="col-lg-12">
+                                  <img class="sign-img" [src]="signRec" />
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="box-footer">
+                      <div class="row">
+                        <div class="col-lg-4">
+                          <div class="form-group">
+                            <button class="btn btn-success mr-1" type="submit">
+                              Salvar
+                            </button>
+                            <button class="btn btn-success" (click)="onSaveAndCreate(f)" type="button">
+                              Salvar e Novo
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+              <div class="tab-pane" id="tab_item">
+                <app-pedidos-itens [dados]="data.pedItens" (dataResult)="addItemResult($event)" [pedidos]="data">
+                </app-pedidos-itens>
+              </div>
+              <div class="tab-pane" id="tab_cond_pagto">
+                <app-pedidos-cond-pagtos [dados]="data.pedCondsPagto" (dataResult)="addCondPagtosResult($event)"
+                  [pedidos]="data"></app-pedidos-cond-pagtos>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</section>
+
+<div class="modal fade" id="signPedModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog modal-dialog-md-99" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <signature-pad #signaturePadPed [options]="signaturePadOptions"></signature-pad>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" (click)="clearSignaturePed()">Limpar</button>
+        <button type="button" class="btn btn-default" (click)="okSignaturePed()" data-dismiss="modal">OK</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="signRecModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog modal-dialog-md-99" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <signature-pad #signaturePadRec [options]="signaturePadOptions"></signature-pad>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" (click)="clearSignatureRec()">Limpar</button>
+        <button type="button" class="btn btn-default" (click)="okSignatureRec()" data-dismiss="modal">OK</button>
+      </div>
+    </div>
+  </div>
+</div>
