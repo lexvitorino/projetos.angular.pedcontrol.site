@@ -51,7 +51,7 @@
     "jspdf": "^1.5.3",
     "jvectormap": "^1.2.2",
     "jwt-decode": "^2.2.0",
-    "moment": "^2.24.0",
+    "moment": "^2.29.2",
     "morris": "^0.1.4",
     "ng-http-loader": "^6.0.1",
     "ng2-currency-mask": "^5.3.1",
